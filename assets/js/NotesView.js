@@ -72,11 +72,24 @@ export default class NotesView {
             });
 
             noteListItem.addEventListener("dblclick", () => {
-                const doDelete = confirm("Are you sure you want to delete this note?");
-
-                if (doDelete) {
-                    this.onNoteDelete(noteListItem.dataset.noteId);
-                }
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#00af8c',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.onNoteDelete(noteListItem.dataset.noteId);
+                        Swal.fire(
+                            'Deleted!',
+                            'Your note has been deleted.',
+                            'success'
+                        );
+                    }
+                });
             });
         });
     }
